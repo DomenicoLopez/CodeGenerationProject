@@ -5,7 +5,7 @@ import jsonlines
 import numpy as np
 
 # TODO: Include your API key here
-api_key = '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'
+api_key = ''
 
 # Comment this code if you want to specify the key directly using the api_key parameter
 client = OpenAI(api_key = api_key)
