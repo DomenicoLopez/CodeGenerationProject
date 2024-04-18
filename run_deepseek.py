@@ -24,29 +24,23 @@ def get_completion(prompt, model="deepseek-chat"):
 
 if __name__ == '__main__':
     jsonObj = pd.read_json(path_or_buf="https://github.com/openai/human-eval/raw/master/data/HumanEval.jsonl.gz", lines=True)
-    command = 0
-    i = 12
+    i = 0
     durationTimes = []
-    with jsonlines.open('data_gpt-3.5-turbo-1106_2.jsonl', mode='w') as writer:
-        with jsonlines.open('timer_2.jsonl', mode='w') as timer:
+    with jsonlines.open('deepseek.jsonl', mode='w') as writer:
+        with jsonlines.open('deepseektimer.jsonl', mode='w') as timer:
             while i < 164:
-                if command < 3:
-                    start_time = time.time()
-                    response = get_completion(jsonObj["prompt"][i])
-                    duration = time.time() - start_time
-                    print(duration)
-                    timer.write({jsonObj["task_id"][i]: duration})
-                    durationTimes.append(duration)
-                    response = response.replace("```python\n", "")
-                    response = response.replace("\n```", "")
-                    response = response[1:]
-                    print(response)
-                    completion = {'task_id': jsonObj["task_id"][i], 'completion': response}
-                    writer.write(completion)
-                    command = command + 1
-                    i = i + 1
-                else:
-                    command = 0
-                    # time.sleep(60)
+                start_time = time.time()
+                response = get_completion(jsonObj["prompt"][i])
+                duration = time.time() - start_time
+                print(duration)
+                timer.write({jsonObj["task_id"][i]: duration})
+                durationTimes.append(duration)
+                response = response.replace("```python\n", "")
+                response = response.replace("\n```", "")
+                response = response[1:]
+                print(response)
+                completion = {'task_id': jsonObj["task_id"][i], 'completion': response}
+                writer.write(completion)
+                i = i + 1
     print(np.sum(duration))
     print(np.average(duration))
