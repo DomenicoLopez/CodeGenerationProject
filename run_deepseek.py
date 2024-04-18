@@ -37,7 +37,6 @@ if __name__ == '__main__':
                 durationTimes.append(duration)
                 response = response.replace("```python\n", "")
                 response = response.replace("\n```", "")
-                response = response[1:]
                 print(response)
                 completion = {'task_id': jsonObj["task_id"][i], 'completion': response}
                 writer.write(completion)
